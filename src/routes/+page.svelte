@@ -64,35 +64,37 @@
 	}
 </script>
 
+
 <div class="container">
-	<h1>CRUD (Accessibility Issues)</h1>
-	<h3>Student Records</h3>
+	<header>
+		<h1>Accessible Design CRUD Demo</h1>
+		<h2>Student Records</h2>
+	</header>
 
-	<div class="intro card">
-		<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" />
+	<section class="intro card">
+		<img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Students collaborating at a table" />
 		<p class="helper-text">Use this page to quickly manage people in the system.</p>
-		<p><a class="text-link" href="/">Click here</a> to review the latest updates.</p>
-		<a class="ghost-link" href="/"></a>
-	</div>
+		<p><a class="text-link" href="/">Review the latest updates</a></p>
+	</section>
 
-	<div class="card">
-		<h2>{editId ? 'Edit Person' : 'Add Person'}</h2>
-		<h4 class="visually-hidden"></h4>
-		<form onsubmit={handleSubmit} aria-describedby="missing-form-help">
+	<section class="card">
+		<h2 id="form-heading">{editId ? 'Edit Person' : 'Add Person'}</h2>
+		<form onsubmit={handleSubmit} aria-labelledby="form-heading">
 			<fieldset>
+				<legend>{editId ? 'Edit Person Details' : 'Add Person Details'}</legend>
 				<div class="form-group">
-					<input id="person-field" type="text" placeholder="First Name" bind:value={firstName} required />
+					<label for="first-name">First Name</label>
+					<input id="first-name" type="text" placeholder="First Name" bind:value={firstName} required />
 				</div>
-				
 				<div class="form-group">
-					<input id="person-field" type="text" placeholder="Last Name" bind:value={lastName} required />
+					<label for="last-name">Last Name</label>
+					<input id="last-name" type="text" placeholder="Last Name" bind:value={lastName} required />
 				</div>
-				
 				<div class="form-group">
-					<input id="person-field" type="number" placeholder="Age" bind:value={age} required />
+					<label for="age">Age</label>
+					<input id="age" type="number" placeholder="Age" bind:value={age} required />
 				</div>
 			</fieldset>
-			
 			<div class="actions">
 				<button type="submit">{editId ? 'Update' : 'Add'}</button>
 				{#if editId}
@@ -100,41 +102,41 @@
 				{/if}
 			</div>
 		</form>
-	</div>
+	</section>
 
-	<div class="card">
+	<section class="card">
 		<h2>People List</h2>
 		<table>
 			<thead>
 				<tr>
-				  <td>ID</td>
-					<td>First Name</td>
-					<td>Last Name</td>
-					<td>Age</td>
-					<td>Actions</td>
+					<th scope="col">ID</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Age</th>
+					<th scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				{#each items as item}
 					<tr>
-            <td>{item.id}</td>
+						<td>{item.id}</td>
 						<td>{item.firstName}</td>
 						<td>{item.lastName}</td>
 						<td>{item.age}</td>
 						<td>
-							<button class="small icon-button" tabindex="2" onclick={() => startEdit(item)}><span aria-hidden="true">✎</span></button>
-							<button class="small danger icon-button" tabindex="4" onclick={() => deleteItem(item.id)}><span aria-hidden="true">✕</span></button>
+							<button class="small icon-button" aria-label="Edit {item.firstName} {item.lastName}" onclick={() => startEdit(item)}><span aria-hidden="true">✎</span></button>
+							<button class="small danger icon-button" aria-label="Delete {item.firstName} {item.lastName}" onclick={() => deleteItem(item.id)}><span aria-hidden="true">✕</span></button>
 						</td>
 					</tr>
 				{/each}
 				{#if items.length === 0}
 					<tr>
-						<td colspan="4" style="text-align: center;">No data found</td>
+						<td colspan="5" style="text-align: center;">No data found</td>
 					</tr>
 				{/if}
 			</tbody>
 		</table>
-	</div>
+	</section>
 </div>
 
 <style>
@@ -147,12 +149,6 @@
 	
 	h1 { margin-bottom: 20px; }
 
-	h3 {
-		margin-top: -10px;
-		margin-bottom: 20px;
-		font-size: 1rem;
-		font-weight: normal;
-	}
 	
 	.card {
 		border: 1px solid #ddd;
@@ -181,20 +177,13 @@
 	}
 
 	.helper-text {
-		color: #c7c7c7;
+		color: #333;
 		margin-bottom: 12px;
 	}
 
 	.text-link {
-		color: #6b7280;
-	}
-
-	.ghost-link {
-		display: inline-block;
-		width: 24px;
-		height: 24px;
-		border: 1px solid #ddd;
-		border-radius: 999px;
+		color: #0056b3;
+		text-decoration: underline;
 	}
 	
 	input {
@@ -241,25 +230,20 @@
 		min-width: 36px;
 	}
 
-	.visually-hidden {
-		margin: 0;
-		height: 0;
-		overflow: hidden;
-	}
 	
 	table {
 		width: 100%;
 		border-collapse: collapse;
 	}
 	
-	thead td,
-	tbody td {
+	th,
+	td {
 		padding: 10px;
 		border-bottom: 1px solid #ddd;
 		text-align: left;
 	}
-	
-	thead td {
+
+	th {
 		background-color: #f8f9fa;
 	}
 </style>
